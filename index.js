@@ -28,7 +28,6 @@ let currentNumb = 0
 let isMonthly = true
 let inputEl 
 let price = 0
-let pricePlan = 0
 let selectedServices = []
 
 // Hide taskbar by default
@@ -133,84 +132,99 @@ goBack.addEventListener('click', () => {
 })
 
 // switch plan
-function toggleSwitch() {
-    toggleChecked.addEventListener("click", () => {
-        plans.forEach(plan => {
-            //get price and data price
-            const monthlyPlan = plan.querySelector(".price")
-            const price = monthlyPlan.getAttribute("data-price")
-            if (isMonthly) {// switch between monthly prices and yearly prices
-                toggleChecked.src ="assets/images/yearly.png"
-                document.getElementById('year').style.color = "#02295a"
-                document.getElementById('month').style.color = "#9699ab"
-                const monthlyYearlyPlan = price.replace("$9/mo", "$90/yr")
-                    .replace("$12/mo", "$120/yr").replace("$15/mo", "$150/yr")
-                monthlyPlan.innerHTML = monthlyYearlyPlan.replace("$", "$ ")
-                monthlyPlan.setAttribute("data-price-toggle", monthlyYearlyPlan)
-                gifts.forEach( discount => {
-                    discount.textContent = '2 months free'
-                })
-            } else {
-                toggleChecked.src ="assets/images/month.png"
-                document.getElementById('year').style.color = "#9699ab"
-                document.getElementById('month').style.color = "#02295a"
-                const monthlyYearlyPlan = price.replace("$90/yr", "$9/mo")
-                    .replace("$120/yr", "$12/mo").replace("$150/yr", "$15/mo")
-                monthlyPlan.innerHTML = monthlyYearlyPlan.replace("$", "$ ")
-                monthlyPlan.setAttribute("data-price", monthlyYearlyPlan)
-                gifts.forEach( discount => {
-                    discount.textContent = ''
-                })
-            }
-        })
-
-        //get the value of addOns 
-        serviceContainer.forEach(servicePlans => {
-            const addOnPrice = servicePlans.querySelector('.add-on-price')
-            const price = addOnPrice.getAttribute('data-add')
-            if(isMonthly) {
-                const newAddOnPrice = price.replace('$1/mo', '$10/yr').replace('$2/mo', '$20/yr')
-                addOnPrice.innerHTML = newAddOnPrice.replace('$', '$ ')
-                addOnPrice.setAttribute("data-add-toggle", newAddOnPrice)
-            } else {
-                const newAddOnPrice = price.replace('$10/yr', '$1/mo').replace('$20/yr', '$2/mo')
-                addOnPrice.innerHTML = newAddOnPrice.replace('$', '$ ')
-                addOnPrice.setAttribute('data-add', newAddOnPrice)
-            }
-        })
-        isMonthly = !isMonthly // toggle isMonthly value
-
+// Add click event listener to toggle switch
+toggleChecked.addEventListener("click", () => {
+    plans.forEach(plan => {
+      // Get pricing information for each plan
+      const monthlyPlan = plan.querySelector(".price");
+      const price = monthlyPlan.getAttribute("data-price");
+      // Check whether user has selected monthly or yearly pricing
+      if (isMonthly) {
+        // User has selected yearly pricing
+        // Update pricing information and discounts for yearly pricing
+        toggleChecked.src = "assets/images/yearly.png";
+        document.getElementById('year').style.color = "#02295a";
+        document.getElementById('month').style.color = "#9699ab";
+        const monthlyYearlyPlan = price.replace("$9/mo", "$90/yr")
+            .replace("$12/mo", "$120/yr").replace("$15/mo", "$150/yr");
+        monthlyPlan.innerHTML = monthlyYearlyPlan.replace("$", "$ ");
+        monthlyPlan.setAttribute("data-price-toggle", monthlyYearlyPlan);
+        gifts.forEach( discount => {
+          discount.textContent = '2 months free';
+        });
+      } else {
+        // User has selected monthly pricing
+        // Update pricing information and discounts for monthly pricing
+        toggleChecked.src = "assets/images/month.png";
+        document.getElementById('year').style.color = "#9699ab";
+        document.getElementById('month').style.color = "#02295a";
+        const monthlyYearlyPlan = price.replace("$90/yr", "$9/mo")
+            .replace("$120/yr", "$12/mo").replace("$150/yr", "$15/mo");
+        monthlyPlan.innerHTML = monthlyYearlyPlan.replace("$", "$ ");
+        monthlyPlan.setAttribute("data-price", monthlyYearlyPlan);
+        gifts.forEach( discount => {
+          discount.textContent = '';
+        });
+      }
     })
-
-}
-toggleSwitch()
+  
+    // Iterate over add-ons to update pricing information
+    serviceContainer.forEach(servicePlans => {
+      const addOnPrice = servicePlans.querySelector('.add-on-price');
+      const price = addOnPrice.getAttribute('data-add');
+      if(isMonthly) {
+        // User has selected yearly pricing
+        // Update pricing information for add-ons
+        const newAddOnPrice = price.replace('$1/mo', '$10/yr').replace('$2/mo', '$20/yr');
+        addOnPrice.innerHTML = newAddOnPrice.replace('$', '$ ');
+        addOnPrice.setAttribute("data-add-toggle", newAddOnPrice);
+      } else {
+        // User has selected monthly pricing
+        // Update pricing information for add-ons
+        const newAddOnPrice = price.replace('$10/yr', '$1/mo').replace('$20/yr', '$2/mo');
+        addOnPrice.innerHTML = newAddOnPrice.replace('$', '$ ');
+        addOnPrice.setAttribute('data-add', newAddOnPrice);
+      }
+    })
+  
+    // Toggle the 'isMonthly' value for the next click event
+    isMonthly = !isMonthly;
+})
+  
 
 plans.forEach((plan, index) => {
+    // Listen for a click event on each plan
     plan.addEventListener('click', function() {
         let planPrice = 0
+        // Get the plan title and clean it up
         const title = this.querySelector('p').textContent.trim()
-        const priceEl = this.querySelector('.price')
         const titleParts = title.split("$")
         const cleanTitle = titleParts[0].trim()
-        
-        if (isMonthly) {// using isMonthly to render monthly price and yearly price
+
+        if (isMonthly) {// Check if we are currently displaying monthly prices
+            // Get the monthly price and update the display
             price = priceEl.getAttribute('data-price')
             planPrice = price
             pricePlan = parseFloat(planPrice.replace("$", ""))
             document.getElementById('plan-name').innerHTML = `${cleanTitle} (Monthly)`
             document.getElementById('price').innerHTML = price
         } else {
+            // Get the yearly price and update the display
             price = priceEl.getAttribute('data-price-toggle')
             planPrice = price
             pricePlan = parseFloat(planPrice.replace("$", ""))
             document.getElementById('plan-name').innerHTML =`${cleanTitle} (Yearly)`
             document.getElementById('price').innerHTML = price
         }
-       
+        
+        // Apply a focus state to the selected plan
         focusState(index)
+
+        // Calculate the total price of the selected plan and add-ons
         calculateTotalPrice()
     })
 })
+
 
 // add focus state to plans container
 function focusState(clickedIndex) {
