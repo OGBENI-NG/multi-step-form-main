@@ -408,7 +408,7 @@ input:checked {
         width: 100%;
         max-width: 850px;
         gap: 1em;
-        height: 500px;
+        height: 520px;
         position: absolute;
         top: 0;
         left: 0;
@@ -417,6 +417,7 @@ input:checked {
         bottom: 0;
         padding: 1em;
         border-radius: 8px;
+        
     }
     .desktop-side-txt {
         display: block;
@@ -441,6 +442,7 @@ input:checked {
         border-radius: unset;
         box-shadow: unset;
         background-color: unset;
+        position: relative;
     }
     .step-1 > h1 {
         padding-top: 1em;
@@ -466,14 +468,15 @@ input:checked {
         padding: 1em 0 0 2em;
     }
     .go-back {
-        margin: 0 0 0 auto;
-        padding-left:  3.5em;
+        
+        padding-left:  4.4em;
     }
     .go-back:hover {
-            color:  var(--primary-Marine-blue);
+        color:  var(--primary-Marine-blue);
     }
     .next-step-btn {
         font-size: 1rem;
+        margin: 0;
     }
     .desktop-side-txt > span {
         display: block;
@@ -490,7 +493,13 @@ input:checked {
         bottom:   61px;
         right:  249px;
         width:  62%;
-
+    }
+    .taskbar{
+        position: absolute;
+        right: 100px;
+        left: 257px;
+        top: 425px;
+        z-index: 1;
     }
     #form-btn-overlay {
        position: absolute;
@@ -505,6 +514,9 @@ input:checked {
         margin-top: .5em;
 
     }
+    .monthly-switch {
+        margin-top: 1.8em;
+    }
     .plans {
         flex-direction: column;
         align-items: flex-start;
@@ -517,8 +529,8 @@ input:checked {
     }
     .thanks-you-icon {
         display: block;
-         margin: 3.5em auto 0;
-     }
+        margin: 3.5em auto 0;
+    }
    
 }
 

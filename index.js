@@ -127,6 +127,7 @@ goBack.addEventListener('click', () => {
     currentNumb--
     if (currentNumb < 0) {
         currentNumb = stepsListItem.length - 1
+        
     }
     updateUI()
 })
@@ -384,8 +385,12 @@ function updateUI() {
 
     if(currentNumb === 0 ) {
         goBack.style.display = 'none'
+        formBtn.style.display = "none"
+        nextBtn.style.marginTop = "50px"
     } else {
         goBack.style.display = 'block'
+        nextBtn.style.marginTop = "0"
+        
     }
 
     if(currentNumb === 3) {
@@ -408,7 +413,7 @@ function updateUI() {
 confirmBtn.addEventListener('click', () => {
     document.getElementById('replace-step5').innerHTML = `
         <div class="loading-container">
-        <img src="assets/images/loading.gif" alt="loading" class="loading">
+            <img src="assets/images/loading.gif" alt="loading" class="loading">
         </div> 
     `
     taskbar.classList.add('hidden')
@@ -422,6 +427,7 @@ confirmBtn.addEventListener('click', () => {
                 to email us at support@loremgaming.com.
             </p>
         `
+        
     }, 1500)
 })
 
